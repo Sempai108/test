@@ -1,10 +1,12 @@
-from camera_utils import initialize_camera, capture_image
-from gpio_utils import setup_servo, set_angle, cleanup_gpio
-from image_processing import compute_difference, is_pixel_black_or_white
+from Modules.camera_utils import initialize_camera, capture_image
+from Modules.gpio_utils import setup_servo, set_angle, cleanup_gpio
+from Modules.image_processing import compute_difference, is_pixel_black_or_white
 from PIL import Image
-import config
+from classes.logger import Logger
+from config import config
 import cv2
 
+logger = Logger().logger
 
 def yes_or_not(count):
     return 1 if count > 30000 else 0
@@ -12,19 +14,19 @@ def yes_or_not(count):
 
 def main():
     camera = initialize_camera()
-    pwm1 = setup_servo(config.servo_pin1)
-    pwm2 = setup_servo(config.servo_pin2)
+    pwm1 = config.SERVO_PIN1
+    pwm2 = config.SERVO_PIN2
 
     try:
-        capture_image(camera, "w.png")  # Сохранение базового изображения
+        capture_image(camera, config.W_IMG)  # Сохранение базового изображения
         old = 0
         while True:
-            capture_image(camera, "w1.png")
-            compute_difference("w.png", "w1.png", "result.jpg")
+            capture_image(camera, config.W1_IMG)
+            compute_difference(config.W_IMG, config.W1_IMG, config.RESULT_IMG)
 
             # Анализ пикселей
             count = 0
-            image = Image.open('result.jpg')
+            image = Image.open(config.RESULT_IMG)
             width, height = image.size
             for y in range(height):
                 for x in range(width):
@@ -33,7 +35,7 @@ def main():
 
             human = yes_or_not(count)
             if old == 1 and human == 1:
-                print("PERSON WAS DISCOVERED")
+                logger.info("PERSON WAS DISCOVERED")
                 set_angle(pwm1, 90)
                 set_angle(pwm1, 0)
                 set_angle(pwm2, 90)
@@ -43,13 +45,17 @@ def main():
                 old = human
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+                camera.release()
+                cv2.destroyAllWindows()
+                cleanup_gpio()
+    except Exception as e:
+        logger.error(e, exc_info=True)
     except KeyboardInterrupt:
-        print("Прерывание программы...")
-    finally:
+        logger.info("Прерывание программы...")
         camera.release()
         cv2.destroyAllWindows()
         cleanup_gpio()
+
 
 
 if __name__ == "__main__":
