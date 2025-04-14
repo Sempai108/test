@@ -33,6 +33,6 @@ W_IMG = Config.config()[2]
 W1_IMG = Config.config()[3]
 EYE = Config.config()[4]
 EYE_CONVERTED = Config.config()[5]
-SERVO_PIN1 = setup_servo(Config.config()[5])
+SERVO_PIN1 = setup_servo(Config.config()[6])
 SERVO_PIN2 = setup_servo(Config.config()[7])
 
