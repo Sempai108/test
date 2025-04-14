@@ -49,7 +49,7 @@ def main():
                 for x in range(width):
                     pixel = image.getpixel((x, y))
                     count += is_pixel_black_or_white(pixel)
-                    logger.info(count, width * height)
+                    print(count, width * height)
 
             human = yes_or_not(count)
             if old == 1 and human == 1:
