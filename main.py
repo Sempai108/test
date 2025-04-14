@@ -31,6 +31,7 @@ def destroy_window():
 def main():
     camera, display = initialize_camera(), initialize_display()
     pwm1, pwm2 = config.SERVO_PIN1, config.SERVO_PIN2
+    logger.info("main запущен")
     try:
         image_path, save_path = config.EYE, config.EYE_CONVERTED
         convert_to_1bit(image_path, save_path)
