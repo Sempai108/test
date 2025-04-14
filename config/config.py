@@ -19,13 +19,13 @@ class Config:
         result_img = cfg['images'].get('result') # 1
         w_img = cfg['images'].get('w') # 2
         w1_img = cfg['images'].get('w1') # 3
-        eye.img = cfg['images'].get('eye') # 4
-        eye_converted.img = cfg['images'].get('eye_converted') # 5
+        eye_img = cfg['images'].get('eye') # 4
+        eye_converted_img = cfg['images'].get('eye_converted') # 5
 
         pin_1 = cfg['pins'].get('SERVO_PIN1') # 6
         pin_2 = cfg['pins'].get('SERVO_PIN2') # 7
 
-        return nums, result_img, w_img, w1_img, eye, eye_converted, pin_1, pin_2
+        return nums, result_img, w_img, w1_img, eye_img, eye_converted_img, pin_1, pin_2
 
 count = Config.config()[0]
 RESULT_IMG = Config.config()[1]
