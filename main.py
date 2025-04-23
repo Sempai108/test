@@ -1,5 +1,5 @@
 from Modules.camera_utils import initialize_camera, capture_image
-from Modules.gpio_utils import setup_servo, set_angle, cleanup_gpio
+from Modules.gpio_utils import set_angle, cleanup_gpio
 from Modules.image_processing import compute_difference, is_pixel_black_or_white
 from Modules.display_utils import initialize_display, display_image
 from Modules.image_utils import convert_to_1bit
@@ -42,24 +42,24 @@ def main():
             compute_difference(config.W_IMG, config.W1_IMG, config.RESULT_IMG)
 
             # Анализ пикселей
-            count, old = 0, 0 # Если не пашет, вынести из try var old
+            count, old = config.count, 0 # Если не пашет, вынести из try var old
             image = Image.open(config.RESULT_IMG)
             width, height = image.size
             for y in range(height):
                 for x in range(width):
                     pixel = image.getpixel((x, y))
                     count += is_pixel_black_or_white(pixel)
-                    print(count, width * height)
+                    logger.info(f'{count} | w:{width} | h:{height}')
 
-            human = yes_or_not(count)
-            if old == 1 and human == 1:
-                logger.info("PERSON WAS DISCOVERED")
-                SetAngle(pwm1).set_pwm_angel()
-                SetAngle(pwm2).set_pwm_angel()
-
-                human = 0
-            else:
-                old = human
+                    human = yes_or_not(count)
+                    if old == 1 and human == 1:
+                        logger.info("PERSON WAS DISCOVERED")
+                        SetAngle(pwm1).set_pwm_angel()
+                        SetAngle(pwm2).set_pwm_angel()
+                        human = 0
+                    else:
+                        old = human
+                        logger.info("Нет изменений на изображении. Продолжаем наблюдение...")
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 destroy_window()
