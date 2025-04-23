@@ -2,11 +2,11 @@
   "count": 0,
 
   "images": {
-    "result": "/home/promrobo/project/result.jpg",
-    "w": "/home/promrobo/project/w.png",
-    "w1": "/home/promrobo/project/w1.png",
-    "eye": "/home/promrobo/project/eye.bmp",
-    "eye_converted": "/home/promrobo/project/eye_converted.bmp"
+    "result": "/home/promrobo/test/result.jpg",
+    "w": "/home/promrobo/test/w.png",
+    "w1": "/home/promrobo/test/w1.png",
+    "eye": "/home/promrobo/test/eye.bmp",
+    "eye_converted": "/home/promrobo/test/eye_converted.bmp"
   },
   "pins": {
     "SERVO_PIN1": 18,

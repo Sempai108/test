@@ -42,14 +42,14 @@ def main():
             compute_difference(config.W_IMG, config.W1_IMG, config.RESULT_IMG)
 
             # Анализ пикселей
-            count, old = 0, 0 # Если не пашет, вынести из try var old
+            count, old = config.count, 0 # Если не пашет, вынести из try var old
             image = Image.open(config.RESULT_IMG)
             width, height = image.size
             for y in range(height):
                 for x in range(width):
                     pixel = image.getpixel((x, y))
                     count += is_pixel_black_or_white(pixel)
-                    print(count, width * height)
+                    print(count, f'w:{width} | h:{height}')
 
             human = yes_or_not(count)
             if old == 1 and human == 1:
