@@ -49,17 +49,17 @@ def main():
                 for x in range(width):
                     pixel = image.getpixel((x, y))
                     count += is_pixel_black_or_white(pixel)
-                    print(count, f'w:{width} | h:{height}')
+                    logger.info(f'{count} | w:{width} | h:{height}')
 
-            human = yes_or_not(count)
-            if old == 1 and human == 1:
-                logger.info("PERSON WAS DISCOVERED")
-                SetAngle(pwm1).set_pwm_angel()
-                SetAngle(pwm2).set_pwm_angel()
-                human = 0
-            else:
-                old = human
-                logger.info("Нет изменений на изображении. Продолжаем наблюдение...")
+                    human = yes_or_not(count)
+                    if old == 1 and human == 1:
+                        logger.info("PERSON WAS DISCOVERED")
+                        SetAngle(pwm1).set_pwm_angel()
+                        SetAngle(pwm2).set_pwm_angel()
+                        human = 0
+                    else:
+                        old = human
+                        logger.info("Нет изменений на изображении. Продолжаем наблюдение...")
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 destroy_window()
