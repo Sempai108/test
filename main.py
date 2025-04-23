@@ -1,5 +1,5 @@
 from Modules.camera_utils import initialize_camera, capture_image
-from Modules.gpio_utils import setup_servo, set_angle, cleanup_gpio
+from Modules.gpio_utils import set_angle, cleanup_gpio
 from Modules.image_processing import compute_difference, is_pixel_black_or_white
 from Modules.display_utils import initialize_display, display_image
 from Modules.image_utils import convert_to_1bit
@@ -56,10 +56,10 @@ def main():
                 logger.info("PERSON WAS DISCOVERED")
                 SetAngle(pwm1).set_pwm_angel()
                 SetAngle(pwm2).set_pwm_angel()
-
                 human = 0
             else:
                 old = human
+                logger.info("Нет изменений на изображении. Продолжаем наблюдение...")
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 destroy_window()
